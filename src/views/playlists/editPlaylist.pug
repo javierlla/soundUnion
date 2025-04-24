@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .playlist-edit-form
+    h1 Editar Playlist: #{playlist.name}
+    form(method="POST", action=`/playlists/${playlist.id}`)
+      label(for="name") Nombre
+      input(type="text", name="name", value=playlist.name, required)
+      button(type="submit") Guardar Cambios

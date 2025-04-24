@@ -31,6 +31,18 @@ async function getByID(req, res) {
     }
 }
 
+async function create(req, res) {
+    try {
+        const userId = req.session.user.user_id;
+        const result = await playlistsController.create(req.body, userId);
+        res.redirect("/playlist/" + result.playlist_id);
+    } catch (error) {
+        console.error(error);
+        res.render("layout", { error: "Internal Server Error" });
+    }
+}
+
+
 async function editForm(req, res) {
     try {
         const id = req.params.id;
@@ -65,6 +77,7 @@ async function edit(req, res) {
 }
 
 export default {
+    create,
     getAll,
     getByID,
     edit,

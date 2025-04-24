@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .playlist-detail
+    h1 Playlist: #{playlist.name}
+    if playlist.Songs.length
+      ul
+        each song in playlist.Songs
+          li #{song.title} - #{song.artist}
+    else
+      p No hay canciones en esta playlist.
+    
+    a.button(href=`/playlists/${playlist.id}/edit`) Editar Playlist

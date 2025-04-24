@@ -1,11 +1,10 @@
-import usersController from './usersController.js';
+import playlistsController from './playlistsController.js';
 
 async function getAll(req, res) {
     try {
-        const role = req.session.user?.role;
-        const id = req.session.user?.user_id;
-        const users = await usersController.getAll(id, role);
-        res.json(users);
+        const userId = req.user?.user_id;
+        const playlists = await playlistsController.getAll(userId);
+        res.json(playlists);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Server Error" });
@@ -15,8 +14,8 @@ async function getAll(req, res) {
 async function getByID(req, res) {
     try {
         const id = req.params.id;
-        const user = await usersController.getByID(id);
-        res.json(user);
+        const playlist = await playlistsController.getByID(id);
+        res.json(playlist);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Server Error" });
@@ -25,10 +24,9 @@ async function getByID(req, res) {
 
 async function create(req, res) {
     try {
-        const data = {
-            ...req.body
-        };
-        const result = await usersController.create(data);
+        const data = req.body;
+        const userId = req.user?.user_id;
+        const result = await playlistsController.create(data, userId);
         res.status(201).json(result);
     } catch (error) {
         console.error(error);
@@ -39,22 +37,18 @@ async function create(req, res) {
 async function edit(req, res) {
     try {
         const id = req.params.id;
-        const result = await usersController.edit(id, req.body);
+        const result = await playlistsController.edit(id, req.body);
         res.json(result);
     } catch (error) {
         console.error(error);
-        if (error.statusCode) {
-            res.status(error.statusCode).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: "Server Error" });
-        }
+        res.status(error.statusCode || 500).json({ error: error.message });
     }
 }
 
 async function remove(req, res) {
     try {
         const id = req.params.id;
-        await usersController.remove(id);
+        await playlistsController.remove(id);
         res.status(204).end();
     } catch (error) {
         console.error(error);

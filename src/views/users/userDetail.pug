@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  .user-detail
+    h1 Usuario: #{user.username}
+    p Email: #{user.email}
+    a.button(href=`/users/${user.id}/edit`) Editar Perfil

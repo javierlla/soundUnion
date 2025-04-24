@@ -3,14 +3,15 @@ import User from "../../models/users.js";
 import Song from "../../models/songs.js";
 import {  } from "../../utils/errors.js";
 
-async function getAll(id = null, role = null) {
+async function getAll(user_id = null) {
     const filter = { include: [User, Song] };
-    if (role === "user") {
-        filter.where = { user_id: id };
+    if (user_id) {
+        filter.where = { user_id };
     }
     const playlists = await Playlist.findAll(filter);
     return playlists;
 }
+
 
 async function getByID(id) {
     const playlist = await Playlist.findByPk(id, {
@@ -19,10 +20,14 @@ async function getByID(id) {
     return playlist;
 }
 
-async function create(data) {
-    const result = await Playlist.create(data);
+async function create(data, userId) {
+    const result = await Playlist.create({
+        ...data,
+        user_id: userId
+    });
     return result;
 }
+
 
 async function edit(id, data) {
     const result = await Playlist.update(data, {

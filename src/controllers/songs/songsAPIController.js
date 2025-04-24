@@ -36,8 +36,14 @@ async function edit(req, res) {
     }
 }
 
+const remove = async (req, res) => {
+    res.status(403).json({ message: "Deleting songs is not allowed" }); //EDITAR SI QUIERES!!!!
+  };
+  
+
 export default {
     getAll,
     getByID,
-    edit
+    edit,
+    remove
 };

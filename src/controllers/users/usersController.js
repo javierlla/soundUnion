@@ -3,40 +3,40 @@ import User from "../../models/users.js";
 import Song from "../../models/songs.js";
 import {  } from "../../utils/errors.js";
 
-async function getAll(id = null, role = null) {
-    const filter = { include: [User, Song] };
-    if (role === "user") {
-        filter.where = { user_id: id };
-    }
-    const playlists = await Playlist.findAll(filter);
-    return playlists;
+import User from "../../models/users.js";
+
+// Obtener todos los usuarios
+async function getAll() {
+    const users = await User.findAll();  // Obtén todos los usuarios
+    return users;
 }
 
+// Obtener un usuario por su ID
 async function getByID(id) {
-    const playlist = await Playlist.findByPk(id, {
-        include: [User, Song]
-    });
-    return playlist;
+    const user = await User.findByPk(id);
+    if (!user) throw new Error("User not found");
+    return user;
 }
 
+// Crear un nuevo usuario
 async function create(data) {
-    const result = await Playlist.create(data);
-    return result;
+    const newUser = await User.create(data);
+    return newUser;
 }
 
+// Editar un usuario
 async function edit(id, data) {
-    const result = await Playlist.update(data, {
-        where: {
-            playlist_id: id
-        }
-    });
-    return result;
+    const user = await User.findByPk(id);
+    if (!user) throw new Error("User not found");
+    await user.update(data);  // Actualiza los datos del usuario
+    return user;
 }
 
+// Eliminar un usuario
 async function remove(id) {
-    const playlist = await Playlist.findByPk(id);
-    if (!playlist) throw new Error("Playlist no encontrada");
-    await playlist.destroy();
+    const user = await User.findByPk(id);
+    if (!user) throw new Error("User not found");
+    await user.destroy();  // Elimina al usuario
 }
 
 export default {
