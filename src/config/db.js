@@ -18,9 +18,17 @@ const sequelize = new Sequelize(
     }
 );
 
-// Probar la conexión
-sequelize.authenticate()
+// Función de reintento de conexión
+const connectWithRetry = () => {
+  return sequelize.authenticate()
     .then(() => console.log('Conexión a la base de datos establecida'))
-    .catch(err => console.error('Error al conectar a la base de datos:', err));
+    .catch((err) => {
+      console.error('Error al conectar a la base de datos:', err);
+      setTimeout(connectWithRetry, 5000); // Reintenta después de 5 segundos
+    });
+};
+
+connectWithRetry();
+
 
 export default sequelize;

@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h2 Editar Usuario
+  form(action=`/users/${user.user_id}/edit`, method="POST")
+    div
+      label(for="name") Nombre
+      input(type="text", name="name", value=user.name)
+    div
+      label(for="email") Correo
+      input(type="email", name="email", value=user.email)
+    div
+      label(for="role") Rol
+      input(type="text", name="role", value=user.role)
+    button(type="submit") Guardar Cambios

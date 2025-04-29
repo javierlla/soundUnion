@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  h2 Canciones
+  a(href="/songs/create" style="display: inline-block; margin-bottom: 1rem;") ➕ Crear nueva canción
+  
+  table
+    thead
+      tr
+        th ID
+        th Título
+        th Artista
+        th Categoría
+        th Acciones
+    tbody
+      each song in songs
+        tr
+          td #{song.song_id}
+          td #{song.name}
+          td #{song.artist}
+          td #{song.category}
+          td
+            a(href=`/songs/${song.song_id}` style="margin-right: 0.5rem;") 👁️ Ver
+            a(href=`/songs/${song.song_id}/edit` style="margin-right: 0.5rem;") ✏️ Editar
+            a(href=`/playlists/add-to-playlist?song_id=${song.song_id}` style="background: #4CAF50; color: white; padding: 0.2rem 0.5rem; border-radius: 4px;") ➕ Añadir a playlist

@@ -7,7 +7,6 @@ import isAuthenticated from "../../middleware/authMiddleware.js";
 
 const router = Router();
 
-//bienvenida
 router.get("/", (req, res) => {
     res.send("Welcome to the API world");
 });
@@ -24,7 +23,7 @@ router.get("/songs", isAuthenticated, songsAPIController.getAll);
 router.get("/songs/:id", isAuthenticated, songsAPIController.getByID);  
 router.post("/songs", isAuthenticated, songsAPIController.create);  
 router.put("/songs/:id", isAuthenticated, songsAPIController.edit);  
-router.delete("/songs/:id", isAuthenticated, songsAPIController.remove);  //COMPROBARRR SI QUIERES
+router.delete("/songs/:id", isAuthenticated, songsAPIController.remove);
 
 // Rutas para usuarios
 router.get("/users", isAuthenticated, usersAPIController.getAll); 
@@ -33,7 +32,7 @@ router.post("/users", usersAPIController.create);
 router.put("/users/:id", isAuthenticated, usersAPIController.edit); 
 router.delete("/users/:id", isAuthenticated, usersAPIController.remove); 
 
-// Rutas para la relación playlist-songs
+
 router.post("/playlists/:playlistId/songs/:songId", isAuthenticated, songsPlaylistsAPIController.add); 
 router.delete("/playlists/:playlistId/songs/:songId", isAuthenticated, songsPlaylistsAPIController.remove);  
 

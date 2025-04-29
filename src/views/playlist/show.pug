@@ -1,0 +1,32 @@
+extends ../layout
+
+block content
+  .playlist-container
+    h2 Detalles de la Playlist: #{playlist.name}
+    
+    .playlist-info
+      p 
+        strong Descripción: 
+        | #{playlist.description || 'No hay descripción'}
+      p 
+        strong Creada por: 
+        - const username = playlist.User && playlist.User.username
+        | #{username || 'Usuario desconocido'}
+    
+    if playlist.Songs && playlist.Songs.length
+      h3 Canciones en esta playlist:
+      ul.song-list
+        each song in playlist.Songs
+          li.song-item
+            span= song.title + ' - ' + (song.artist || 'Artista desconocido')
+            form(action=`/playlists/${playlist.playlist_id}/remove-song` method="POST" style="display: inline;")
+              input(type="hidden" name="songId" value=song.song_id)
+              button(type="submit").btn.btn-sm.btn-danger Eliminar
+    
+    else
+      .alert.alert-info No hay canciones en esta playlist
+    
+    .actions
+      a(href=`/playlists/${playlist.playlist_id}/add`).btn.btn-success Añadir canciones
+      a(href=`/playlists/${playlist.playlist_id}/edit`).btn.btn-warning Editar Playlist
+      a(href="/playlists").btn.btn-secondary Volver a todas las playlists

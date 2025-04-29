@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   app:
     container_name: ${APP_HOST}
@@ -12,6 +13,8 @@ services:
       - mysql
     env_file:
       - .env
+    networks:
+      - soundunion-network
 
   mysql:
     container_name: ${DB_HOST}
@@ -28,6 +31,12 @@ services:
       - mysql_data:/var/lib/mysql
       - ./database:/docker-entrypoint-initdb.d:ro
       - ./database/conf/mycustom.cnf:/etc/mysql/conf.d/custom.cnf:ro
+    networks:
+      - soundunion-network
 
 volumes:
   mysql_data:
+
+networks:
+  soundunion-network:
+    driver: bridge

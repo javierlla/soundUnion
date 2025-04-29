@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
-import Playlist from "./Playlists.js"; 
+import Playlist from "./playlists.js"; 
 
 
 const Song = sequelize.define('song', {
@@ -25,12 +25,6 @@ const Song = sequelize.define('song', {
 
 }, {
     tableName: 'songs'
-});
-
-
-Song.belongsToMany(Playlist, {
-    through: "songs_playlists",
-    foreignKey: "song_id"
 });
 
 export default Song;

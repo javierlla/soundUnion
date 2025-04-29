@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h2 Detalles del Usuario
+  p Nombre: #{user.name}
+  p Correo: #{user.email}
+  p Role: #{user.role}
+  a(href="/users") Volver a la lista de usuarios
+  a(href=`/users/${user.user_id}/edit`) Editar Usuario

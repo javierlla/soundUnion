@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  h2 Usuarios
+  table
+    thead
+      tr
+        th ID
+        th Nombre
+        th Correo
+        th Acciones
+    tbody
+      each user in users
+        tr
+          td #{user.user_id}
+          td #{user.name}
+          td #{user.email}
+          td
+            a(href=`/users/${user.user_id}`) Ver
+            a(href=`/users/${user.user_id}/edit`) Editar
+

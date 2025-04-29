@@ -23,7 +23,7 @@ async function getByID(req, res) {
 
 async function create(req, res) {
     try {
-        const data = req.body;  // Recibe los datos desde el cuerpo de la solicitud
+        const data = req.body;  
         const result = await usersController.create(data);
         res.status(201).json(result);
     } catch (error) {

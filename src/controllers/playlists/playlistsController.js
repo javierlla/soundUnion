@@ -1,7 +1,6 @@
-import Playlist from "../../models/Playlists.js";
+import Playlist from "../../models/playlists.js";
 import User from "../../models/users.js";
 import Song from "../../models/songs.js";
-import {  } from "../../utils/errors.js";
 
 async function getAll(user_id = null) {
     const filter = { include: [User, Song] };
@@ -12,7 +11,6 @@ async function getAll(user_id = null) {
     return playlists;
 }
 
-
 async function getByID(id) {
     const playlist = await Playlist.findByPk(id, {
         include: [User, Song]
@@ -21,16 +19,31 @@ async function getByID(id) {
 }
 
 async function create(data, userId) {
-    const result = await Playlist.create({
-        ...data,
-        user_id: userId
-    });
-    return result;
+    const { name, description, isPublic } = data;
+
+    if (!name || name.trim() === '') {
+        throw new Error("El nombre de la playlist es obligatorio");
+    }
+
+    const isPublicValue = isPublic === 'on' ? 1 : 0;
+
+    try {
+        const result = await Playlist.create({
+            name,
+            description: description || null, 
+            isPublic: isPublicValue,
+            user_id: userId
+        });
+        return result;
+    } catch (error) {
+        console.error('Error al crear la playlist:', error);
+        throw error;
+    }
 }
 
-
 async function edit(id, data) {
-    const result = await Playlist.update(data, {
+    const { name, description } = data;
+    const result = await Playlist.update({ name, description }, {
         where: {
             playlist_id: id
         }

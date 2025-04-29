@@ -4,17 +4,21 @@ import dotenv from 'dotenv'
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-
-function createToken(userData){
+function createToken(userData) {
     const token = jwt.sign(userData, JWT_SECRET, { expiresIn: '24h' });
+    return token; 
 }
 
-function verifyToken(token){
-    const result = jwt.verify(token,JWT_SECRET);
-    return result;
+function verifyToken(token) {
+    try {
+        const result = jwt.verify(token, JWT_SECRET);
+        return result;
+    } catch (error) {
+        throw new Error("Invalid or expired token");
+    }
 }
 
-export{
+export {
     createToken,
     verifyToken
-}
+};

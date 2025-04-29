@@ -1,71 +1,63 @@
-import songController from './songsController.js';
+import songsController from './songsController.js';
 
 async function getAll(req, res) {
     try {
-        const songs = await songController.getAll();
-        const role = req.session.user?.role;
-    
-        res.render("song/list", { songs, role });
+        const songs = await songsController.getAll();
+        console.log("Canciones:", songs); 
+        res.render("song/list", { songs });
 
     } catch (error) {
         console.error(error);
-        res.render("layout", { error: "Internal Server Error" }); // Vamos a la vista de layout y le mostramos el error
+        res.render("layout", { error: "Internal Server Error" });
     }
 }
 
 async function getByID(req, res) {
     try {
         const id = req.params.id;
-        const song = await songController.getByID(id);
+        const song = await songsController.getByID(id);
 
         if (!song) {
             return res.render("layout", { error: "There is no song for that ID" });
         }
 
-        res.render("song/show", { song }); // La ruta de render es a partir de la carpeta views, no la del router
-        
+        res.render("song/show", { song });
+
     } catch (error) {
         console.error(error);
-        res.render("layout", { error: "Internal Server Error" }); // Vamos a la vista de layout y le mostramos el error
+        res.render("layout", { error: "Internal Server Error" });
     }
 }
 
-async function editForm(req, res) {
+async function createForm(req, res) {
     try {
-        const id = req.params.id;
-        const song = await songController.getByID(id);
-
-        if (!song) {
-            return res.redirect("/song");
-        }
-
-        res.render("song/edit", { song });
-        
+        res.render("song/create"); 
     } catch (error) {
         console.error(error);
-        res.render("layout", { error: "Internal Server Error" }); // Vamos a la vista de layout y le mostramos el error
+        res.render("layout", { error: "Internal Server Error" });
     }
 }
 
-async function edit(req, res) {
-    const id = req.params.id;
-
+async function create(req, res) {
     try {
-        const result = await songController.edit(id, req.body);
-        res.redirect("/song/" + id);
+        const { name, artist, category } = req.body;
         
-    } catch (error) {
-        if (error.statusCode) {
-            res.redirect(`/song/${id}/edit?error=` + error.message);
-        } else {
-            res.render("layout", { error: "Internal Server Error" });
+        if (!name?.trim()) {
+            return res.redirect("/songs/create?error=Nombre+requerido");
         }
+
+        await songsController.create({ name, artist, category });
+        res.redirect("/songs"); 
+    } catch (error) {
+        console.error(error);
+        res.redirect("/songs/create?error=" + encodeURIComponent(error.message));
     }
 }
+
 
 export default {
     getAll,
     getByID,
-    edit,
-    editForm
+    createForm,
+    create
 };

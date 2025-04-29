@@ -1,7 +1,6 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Sequelize } from 'sequelize';  // Asegúrate de que Sequelize también se importa
 import sequelize from '../config/db.js';
-import Song from './songs.js'
-
+import Song from './songs.js';
 
 const Playlist = sequelize.define('playlist', {
     playlist_id: {
@@ -15,14 +14,17 @@ const Playlist = sequelize.define('playlist', {
         allowNull: false,
     },
     isPublic: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
+        type: DataTypes.BOOLEAN, 
+        allowNull: false,
+        defaultValue: false
     },
 }, {
     tableName: 'playlists'
 });
 
-Playlist.belongsToMany(Song,{through:"songs_playlists",foreignKey:"playlist_id"});
-Song.belongsToMany(Playlist,{through:"songs_playlists",foreignKey:"song_id"});
+
+Playlist.belongsToMany(Song, { through: "songs_playlists", foreignKey: "playlist_id" });
+Song.belongsToMany(Playlist, { through: "songs_playlists", foreignKey: "song_id" });
 
 export default Playlist;
+

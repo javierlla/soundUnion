@@ -1,6 +1,5 @@
 import { verifyToken } from "../utils/token.js";
 
-// Middleware para proteger rutas de vistas: necesita sesión activa
 function isLoggedInSession(req, res, next) {
     const user = req.session?.user;
     if (!user) {
@@ -9,7 +8,6 @@ function isLoggedInSession(req, res, next) {
     next();
 }
 
-// Middleware para proteger rutas de API: necesita JWT válido
 function isLoggedInAPI(req, res, next) {
     const authorization = req.headers.authorization;
 
@@ -36,7 +34,6 @@ function isLoggedInAPI(req, res, next) {
     }
 }
 
-// Middleware general para verificar sesión activa (por si lo usás como default export)
 function isAuthenticated(req, res, next) {
     if (req.session?.user) {
         next();

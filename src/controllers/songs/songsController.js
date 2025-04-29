@@ -1,47 +1,3 @@
-/* import  Song from '../../models/Songs.js';
-import {  } from "../../utils/errors.js";
-
-
-async function getAll(){
-
-    const songs = await Song.findAll();
-   
-    return songs;
-
-}
-  
-async function getByID(id){
-
-    const song = await Song.findByPk(id);
-
-    return song;
-
-}
-
-async function edit(id, data){ // suponemos que los datos que vamos a pasar a la función estan en el formato correcto
-
-    if (data.name){
-        
-    }
-
-    const result = await Song.update(
-        data,
-        {
-            where:{
-                song_id: id
-            }
-        }
-    );
-
-    return result;
-
-}
-
-export default{
-    getAll,
-    getByID,
-    edit
-} */
 
 import Song from '../../models/songs.js';
 import {  } from "../../utils/errors.js";
@@ -90,8 +46,28 @@ async function edit(id, data) {
     }
 }
 
+async function create(data) {
+    try {
+        if (!data.name || data.name.trim() === "") {
+            throw new Error("El nombre de la canción es obligatorio");
+        }
+
+        const newSong = await Song.create({
+            name: data.name.trim(),
+            artist: data.artist?.trim() || null,
+            category: data.category?.trim() || null
+        });
+
+        return newSong;
+    } catch (error) {
+        throw new Error(`Error al crear la canción: ${error.message}`);
+    }
+}
+
+
 export default {
     getAll,
     getByID,
-    edit
+    edit,
+    create 
 };

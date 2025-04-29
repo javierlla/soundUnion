@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
-import Playlist from './Playlist.js'; 
+import Playlist from './playlists.js'; 
 
 
 const User = sequelize.define('user', {

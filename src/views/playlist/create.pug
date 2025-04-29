@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h2 Crear Playlist
+  form(action="/playlists" method="POST" enctype="application/x-www-form-urlencoded")
+      div
+          label(for="name") Nombre *
+          input(type="text" name="name" required value=name || '')
+      div
+          label(for="description") Descripción
+          textarea(name="description")= description || ''
+      div
+          input(type="checkbox" name="isPublic" id="isPublic" value="on")
+          label(for="isPublic") Playlist pública
+      button(type="submit") Crear

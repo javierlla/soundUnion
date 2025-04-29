@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h2 Editar Canción
+  form(action=`/songs/${song.song_id}/edit`, method="POST")
+    div
+      label(for="name") Título
+      input(type="text", name="name", value=song.name)
+    div
+      label(for="artist") Artista
+      input(type="text", name="artist", value=song.artist)
+    div
+      label(for="duration") Duración
+      input(type="text", name="duration", value=song.duration)
+    button(type="submit") Guardar Cambios

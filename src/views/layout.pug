@@ -1,15 +1,24 @@
 doctype html
-html
+html(lang="es")
   head
-    title SoundUnion
-    link(rel="stylesheet", href="/styles.css")
+  title SoundUnion
+  link(rel="stylesheet" href="/css/style.css")
   body
     header
+      h1 SoundUnion
       nav
-        a(href="/home") Home
+        a(href="/") Home
         a(href="/playlists") Playlists
-        a(href="/songs") Canciones
-        a(href="/users") Usuarios
-        a(href="/logout") Logout
+        a(href="/songs") Songs
+        a(href="/users") Users
+        if user
+          span  #{user.name}
+          a(href="/logout") Logout
+        else
+          a(href="/login") Login
+          a(href="/register") Register
     main
       block content
+    footer
+      p &copy; 2025 SoundUnion
+

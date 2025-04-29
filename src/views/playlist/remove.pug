@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  h2 Quitar Canción de Playlist
+  form(action="/playlist-song/remove", method="POST")
+    div
+      label(for="playlistId") Playlist
+      select(name="playlistId")
+        each playlist in playlists
+          option(value=playlist.playlist_id) #{playlist.name}
+    div
+      label(for="songId") Canción
+      select(name="songId")
+        each song in songs
+          option(value=song.song_id) #{song.title}
+    button(type="submit") Quitar Canción

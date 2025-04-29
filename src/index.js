@@ -1,39 +1,53 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import session from 'express-session';
-import router from './routes/index.js';
+import router from './routes/router.js';
 
-// Cargar variables de entorno
 dotenv.config();
 
-// Crear servidor Express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configurar middleware
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('src/public'));
+ 
 
-// Configurar motor de plantillas
 app.set('view engine', 'pug');
 app.set('views', 'src/views');
 
-// Configurar sesión
 app.use(session({
-    secret: process.env.SECRET,
+    secret: process.env.SESSION_SECRET || 'fallback_secret',
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        secure: false, // true para HTTPS
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 semana
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }));
 
-// Configurar rutas
+
+app.use((req, res, next) => {
+    res.locals.user = req.session.user;
+    next();
+});
+
+
+app.use((req, res, next) => {
+    console.log('\n====== DEBUG REQUEST ======');
+    console.log('Method:', req.method);
+    console.log('Path:', req.path);
+    console.log('Body:', req.body);
+    console.log('Session user:', req.session.user);
+    console.log('==========================\n');
+    next();
+});
+
+
 app.use('/', router);
 
-// Iniciar servidor
+
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

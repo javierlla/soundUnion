@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h2 Detalles de la Canción
+  p Título: #{song.name}
+  p Artista: #{song.artist}
+  p Duración: #{song.duration}
+  a(href="/songs") Volver a la lista de canciones
+  a(href=`/songs/${song.song_id}/edit`) Editar Canción

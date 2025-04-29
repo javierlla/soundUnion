@@ -7,36 +7,37 @@ import isAuthenticated from "../../middleware/authMiddleware.js";
 
 const router = Router();
 
-// Rutas de las playlists
-router.get("/playlists", isAuthenticated, playlistsViewController.getAll);  // Mostrar todas las playlists
-router.get("/playlists/:id", isAuthenticated, playlistsViewController.getByID);  // Mostrar playlist por ID
-router.get("/playlists/:id/edit", isAuthenticated, playlistsViewController.editForm);  // Formulario para editar playlist
-router.post("/playlists/:id", isAuthenticated, playlistsViewController.edit);  // Editar playlist
+// Playlists
+router.get("/playlists", isAuthenticated, playlistsViewController.getAll);
+router.get("/playlists/create", isAuthenticated, playlistsViewController.createForm);
+router.post("/playlists", isAuthenticated, playlistsViewController.create);
+router.get("/playlists/:id", isAuthenticated, playlistsViewController.getByID);
+router.get("/playlists/:id/edit", isAuthenticated, playlistsViewController.editForm);
+router.post("/playlists/:id", isAuthenticated, playlistsViewController.edit);
+router.get("/playlists/:id/add", isAuthenticated, playlistsViewController.addSongForm);
+router.post("/playlists/:id/add-song", isAuthenticated, playlistsViewController.addSong);
+router.post("/playlists/:id/remove-song/:songId", isAuthenticated, playlistsViewController.removeSong); // Cambiado para incluir songId en la ruta
 
-// Rutas para las canciones
-router.get("/songs", isAuthenticated, songsViewController.getAll);  // Mostrar todas las canciones
-router.get("/songs/:id", isAuthenticated, songsViewController.getByID);  // Mostrar canción por ID
+// Songs
+router.get("/songs", isAuthenticated, songsViewController.getAll);
+router.get("/songs/create", isAuthenticated, songsViewController.createForm);
+router.post("/songs", isAuthenticated, songsViewController.create);
+router.get("/songs/:id", isAuthenticated, songsViewController.getByID);
 
-// Rutas de los usuarios
-router.get("/users", isAuthenticated, usersViewController.getAll);  // Mostrar todos los usuarios
-router.get("/users/:id", isAuthenticated, usersViewController.getByID);  // Mostrar usuario por ID
-router.get("/users/:id/edit", isAuthenticated, usersViewController.editForm);  // Formulario de edición de usuario
-router.post("/users/:id", isAuthenticated, usersViewController.edit);  // Editar usuario
+// Users
+router.get("/users", isAuthenticated, usersViewController.getAll);
+router.get("/users/:id", isAuthenticated, usersViewController.getByID);
+router.get("/users/:id/edit", isAuthenticated, usersViewController.editForm);
+router.post("/users/:id", isAuthenticated, usersViewController.edit);
 
-// Página de inicio
+
 router.get("/home", isAuthenticated, (req, res) => {
-    res.render("userHome", { user: req.session.user });
+    res.render("home/userHome", { user: req.session.user });
 });
 
-// Página principal, redirige a home si ya está autenticado
 router.get("/", (req, res) => {
-    if (req.session.user) {
-        return res.redirect("/home");
-    } else {
-        return res.redirect("/login");
-    }
+    req.session.user ? res.redirect("/home") : res.redirect("/login");
 });
-
 
 router.use("/", authRouter);
 

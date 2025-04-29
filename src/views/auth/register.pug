@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  .auth-container
+    h1 Registrarse en SoundUnion
+
+    if error
+      p.error #{error}
+    if message
+      p.message #{message}
+
+    form(method="POST", action="/register")
+      label(for="name") Nombre de usuario
+      input(type="text", name="name", required)
+
+      label(for="email") Correo electrónico
+      input(type="email", name="email", required)
+
+      label(for="password") Contraseña
+      input(type="password", name="password", required)
+
+      button(type="submit") Registrarse

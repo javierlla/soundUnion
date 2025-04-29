@@ -20,6 +20,16 @@ async function getByID(req, res) {
         res.status(500).json({ error: "Server Error" });
     }
 }
+async function create(req, res) {
+    try {
+        const newSong = await songController.create(req.body);
+        res.status(201).json(newSong);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server Error" });
+    }
+}
+
 
 async function edit(req, res) {
     try {
@@ -37,7 +47,7 @@ async function edit(req, res) {
 }
 
 const remove = async (req, res) => {
-    res.status(403).json({ message: "Deleting songs is not allowed" }); //EDITAR SI QUIERES!!!!
+    res.status(403).json({ message: "Deleting songs is not allowed" }); 
   };
   
 
@@ -45,5 +55,6 @@ export default {
     getAll,
     getByID,
     edit,
-    remove
+    remove,
+    create
 };

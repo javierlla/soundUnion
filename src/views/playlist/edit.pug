@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  h2 Editar Playlist
+  form(action=`/playlists/${playlist.playlist_id}`, method="POST")
+    div
+      label(for="name") Nombre
+      input(type="text", name="name", value=playlist.name, required)
+    div
+      label(for="description") Descripción
+      textarea(name="description")= playlist.description || ''
+    div
+      label
+        input(
+          type="checkbox", 
+          name="isPublic", 
+          checked=playlist.isPublic ? true : false
+        )
+        |  Pública
+    button(type="submit") Guardar Cambios

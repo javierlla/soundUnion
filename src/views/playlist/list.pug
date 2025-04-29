@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  
+  
+  if playlists.length > 0
+    ul(style="border: 2px solid blue; padding: 1rem;") <!-- Marco azul para debug -->
+      each playlist in playlists
+        li
+          a(href=`/playlists/${playlist.playlist_id}`)= playlist.name
+          |  
+          a(href=`/playlists/${playlist.playlist_id}/edit`) ✏️
+          |  
+          a(href=`/playlists/${playlist.playlist_id}/add`) ➕
+  else
+    p No hay playlists aún.
+
+  a(href="/playlists/create" style="display: block; margin-top: 1rem;") Crear nueva playlist

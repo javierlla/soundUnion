@@ -1,9 +1,0 @@
-extends layout
-
-block content
-  .song-list
-    h1 Todas las Canciones
-    ul
-      each song in songs
-        li
-          a(href=`/songs/${song.id}`) #{song.title} - #{song.artist}

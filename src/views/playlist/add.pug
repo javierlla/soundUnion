@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  h2 Añadir canciones a: #{playlist.name}
+  
+  if error
+    .error= error
+  
+  form(action=`/playlists/${playlist.playlist_id}/add-song` method="POST")
+    div
+      label(for="songId") Selecciona una canción:
+      select(name="songId")
+        each song in songs
+          if !currentSongIds.includes(song.song_id)
+            option(value=song.song_id)= `${song.name} - ${song.artist}`
+    
+    button(type="submit") Añadir canción
+    a(href=`/playlists/${playlist.playlist_id}`) Cancelar

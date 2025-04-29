@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  h2 Crear Canción
+  if error
+    p.error= error
+  form(action="/songs", method="POST")
+    div
+      label(for="name") Nombre
+      input(type="text", name="name", required)
+    div
+      label(for="artist") Artista
+      input(type="text", name="artist")
+    div
+      label(for="category") Categoría
+      input(type="text", name="category")
+    button(type="submit") Crear Canción
